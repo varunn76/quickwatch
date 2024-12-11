@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --text: #e8e4ec;
+  --background: #171717;
+  --primary: #8946e2;
+  --secondary: #9e5ff2;
+  --accent: #5ff2be;
+
+  --linearPrimarySecondary: linear-gradient(#8946e2, #9e5ff2);
+  --linearPrimaryAccent: linear-gradient(#8946e2, #5ff2be);
+  --linearSecondaryAccent: linear-gradient(#9e5ff2, #5ff2be);
+  --radialPrimarySecondary: radial-gradient(#8946e2, #9e5ff2);
+  --radialPrimaryAccent: radial-gradient(#8946e2, #5ff2be);
+  --radialSecondaryAccent: radial-gradient(#9e5ff2, #5ff2be);
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
+
+@layer utilities {
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+
+  .text-30-extrabold {
+    @apply text-[30px] font-extrabold text-white;
+  }
+
+  .text-30-bold {
+    @apply text-[30px] font-bold text-black;
+  }
+
+  .text-30-semibold {
+    @apply text-[30px] font-semibold text-black;
+  }
+
+  .text-26-semibold {
+    @apply text-[26px] font-semibold text-black;
+  }
+
+  .text-24-black {
+    @apply text-[24px] font-black text-black;
+  }
+
+  .text-20-medium {
+    @apply text-[20px] font-medium text-black;
+  }
+
+  .text-16-medium {
+    @apply text-[16px] font-medium text-black;
+  }
+
+  .text-14-normal {
+    @apply text-sm font-normal text-white-100/80;
+  }
+
+  .purple_container {
+    @apply flex min-h-[1000px] w-full flex-col items-center justify-center bg-black-300 px-6 py-10 md:min-h-[620px];
+  }
+
+  .heading {
+    @apply my-5 max-w-5xl bg-background px-6 py-3 text-center font-poppins-sans text-[1.8rem] font-semibold uppercase leading-[46px] text-white sm:leading-[64px] md:text-[2.5rem];
+  }
+
+  .sub-heading {
+    @apply max-w-2xl break-words text-center text-[15px] font-medium text-white md:text-[20px];
+  }
+
+  .section_container {
+    @apply mx-auto bg-black-200 px-6 py-10;
+  }
+
+  .no-result {
+    @apply text-sm font-normal text-black-100;
+  }
+
+  .divider {
+    @apply mx-auto my-10 max-w-4xl border-dotted bg-zinc-400;
+  }
+
+  .view_skeleton {
+    @apply fixed bottom-3 right-3 h-10 w-24 rounded-lg bg-zinc-400;
+  }
+
+  .avatar {
+    @apply rounded-full bg-none p-0 drop-shadow-md focus-visible:ring-0 !important;
+  }
+
+  .dropdown-menu {
+    @apply w-56 rounded-2xl border-[5px] border-black bg-white p-5 !important;
+  }
+
+  .login {
+    @apply relative border-[5px] border-black bg-white py-4 font-poppins-sans font-medium text-black shadow-100 transition-all duration-500 hover:shadow-none !important;
+  }
+
+  /* searchform */
+  .form-input {
+    @apply mt-8 flex min-h-[50px] w-full max-w-3xl flex-row items-center gap-5 rounded-[80px] bg-white px-5 text-[24px];
+  }
+
+  .search-input {
+    @apply h-auto w-full flex-1 font-semibold outline-none placeholder:font-semibold placeholder:text-black-100;
+  }
+
+  .x-btn {
+    @apply flex size-[40px] items-center justify-center rounded-full bg-primary-300 !important;
+  }
+  .search-btn {
+    @apply mt-2 flex size-[55px] items-center justify-center rounded-full bg-primary-300 !important;
+  }
+
+  .loader {
+    width: 50px;
+    padding: 8px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #83e12e;
+    --_m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
+    -webkit-mask: var(--_m);
+    mask: var(--_m);
+    -webkit-mask-composite: source-out;
+    mask-composite: subtract;
+    animation: l3 1s infinite linear;
+  }
+
+  .tag-tri {
+    @apply before:absolute before:left-2 before:top-2 before:border-r-[10px] before:border-t-[10px] before:border-r-transparent before:border-t-black before:content-[''] after:absolute after:bottom-2 after:right-2 after:border-b-[10px] after:border-l-[10px] after:border-b-black after:border-l-transparent after:content-[''];
+  }
+}
+
+
+
+.poster {
+  position: absolute;
+  width: 150px;
+  height: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+
+@keyframes animate {
+  from {
+    opacity: 0;
+    transform: translate(0, 100px);
+    filter: blur(33px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(0);
+    filter: blur(0);
+  }
+}
