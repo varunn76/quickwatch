@@ -77,7 +77,7 @@ function PopularBanner({ currentIndex }: { currentIndex: number }) {
   return (
     <>
       <div className='inset-0 h-full w-full backdrop-blur-sm lg:backdrop-blur-none'>
-        <div className='absolute bottom-[35%] left-1/2 hidden -translate-x-1/2 items-center justify-center gap-6 md:bottom-[28%] md:flex lg:bottom-[108px] lg:left-1 lg:-translate-x-0 xl:left-24 2xl:bottom-[20%] 2xl:gap-10'>
+        <div className='absolute bottom-[35%] left-1/2 hidden -translate-x-1/2 items-center justify-center gap-6 md:bottom-[28%] md:flex lg:bottom-[88px] lg:left-1 lg:-translate-x-0 xl:left-24 2xl:bottom-[20%] 2xl:gap-10'>
           {Array.from({ length: 3 }).map((_, idx) => {
             const length = popularData?.length || 0;
 
@@ -91,7 +91,7 @@ function PopularBanner({ currentIndex }: { currentIndex: number }) {
             return (
               <div
                 key={`popular-${index}`}
-                className={`relative h-[200px] w-[130px] cursor-pointer rounded-xl bg-cover bg-center transition-transform md:h-[270px] md:w-[180px] lg:h-[300px] lg:w-[200px] 2xl:h-[450px] 2xl:w-[280px] ${
+                className={`relative h-[200px] w-[130px] cursor-pointer rounded-xl bg-cover bg-center transition-transform md:h-[270px] md:w-[180px] lg:mb-10 lg:h-[370px] lg:w-[230px] xl:h-[250px] xl:w-[170px] 2xl:h-[450px] 2xl:w-[280px] ${
                   isCurrent ? 'z-10 scale-125 border' : 'scale-90 opacity-80'
                 }`}
                 style={{
@@ -125,12 +125,12 @@ function PopularBanner({ currentIndex }: { currentIndex: number }) {
         {currentSlide?.poster_path && (
           <Link
             href={`/movie/${slugify(`${title}`, { lower: true, strict: true })}`}
-            className='absolute left-1/2 top-[59%] w-full -translate-x-1/2 -translate-y-1/2 md:hidden'
+            className='absolute left-1/2 top-[69%] w-full -translate-x-1/2 -translate-y-1/2 md:hidden'
           >
             <LazyLoadImage
               src={getImageUrl(currentSlide.poster_path, 'w500')}
               alt={currentSlide.title || 'Poster'}
-              className='mx-auto h-[350px] w-[230px] rounded-lg border-2 object-cover shadow-2xl'
+              className='mx-auto h-[300px] w-[200px] rounded-lg border-2 object-cover shadow-2xl'
             />
           </Link>
         )}
@@ -200,7 +200,7 @@ function PopularBanner({ currentIndex }: { currentIndex: number }) {
               route={`/watch/${slugify(`${title}`, { lower: true, strict: true })}`}
             />
           </div>
-          <div className='mx-auto mt-10 flex w-4/5 flex-col gap-5 md:mt-0 md:w-2/5 lg:mt-5 lg:w-fit'>
+          <div className='mx-auto flex w-4/5 flex-col gap-5 md:mt-0 md:w-2/5 lg:mt-5 lg:w-fit'>
             <div className='flex w-full justify-between'>
               <div
                 className='cursor-pointer rounded-full bg-primary from-primary to-accent/70 p-2 text-white hover:bg-gradient-to-tr hover:drop-shadow-lg'

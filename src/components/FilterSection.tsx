@@ -68,84 +68,86 @@ const FilterSection = () => {
     await fetchData(params);
   };
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, [dispatch]);
+  useEffect(() => {
+    fetchData();
+  }, [dispatch]);
 
   return (
-    <section className='section_container'>
+    <section className='section_container h-screen'>
       <MaxWidthWrapper className='relative'>
-        <div className='mb-16 h-full rounded-2xl bg-black-300'>
-          <div className='grid h-full grid-cols-1 gap-4 px-4 py-4 md:grid-cols-2 xl:grid-cols-5 xl:gap-8'>
-            {/* Category Filters */}
-            <div className='flex h-full items-center justify-center space-x-2 rounded-xl bg-black-200 py-2 text-white'>
-              {versions.map((version) => (
-                <p
-                  key={version}
-                  onClick={() => dispatch(setActiveFilter(version))}
-                  className={`cursor-pointer rounded-md px-3 py-2 font-medium ${
-                    activeFilter === version
-                      ? 'bg-primary text-white'
-                      : 'bg-transparent'
-                  }`}
-                >
-                  {version}
-                </p>
-              ))}
-            </div>
-
-            {/* Genre Dropdown */}
-            <div className='flex h-full w-full items-center justify-center space-x-2 rounded-xl bg-black-200 py-2 text-white lg:px-6'>
-              <select
-                id='genre'
-                name='Genres'
-                className='bg-black-200 py-2 text-white xl:px-2'
-                value={selectedGenre}
-                onChange={(e) => dispatch(setSelectedGenre(e.target.value))}
-              >
-                <option value='' disabled>
-                  Select Genre
-                </option>
-                {genres.map((genre) => (
-                  <option
-                    key={genre.id}
-                    value={genre.id}
-                    className='bg-black-300 capitalize'
+        <div className='absolute w-full xl:-top-20'>
+          <div className='jus h-full rounded-3xl bg-black-300'>
+            <div className='grid h-full grid-cols-1 gap-4 px-4 py-8 md:grid-cols-2 xl:grid-cols-5 xl:gap-8'>
+              {/* Category Filters */}
+              <div className='flex h-full items-center justify-center space-x-2 rounded-xl bg-black-200 py-2 text-white'>
+                {versions.map((version) => (
+                  <p
+                    key={version}
+                    onClick={() => dispatch(setActiveFilter(version))}
+                    className={`cursor-pointer rounded-md px-3 py-2 font-medium ${
+                      activeFilter === version
+                        ? 'bg-primary text-white'
+                        : 'bg-transparent'
+                    }`}
                   >
-                    {genre.name}
-                  </option>
+                    {version}
+                  </p>
                 ))}
-              </select>
-            </div>
+              </div>
 
-            {/* Year Picker Button */}
-            <div className='flex h-full w-full items-center justify-center'>
-              <button
-                className='w-full rounded-xl bg-black-200 px-4 py-4 text-white hover:bg-primary'
-                onClick={() => dispatch(setShowModal(true))}
-              >
-                {selectedYear}
-              </button>
-            </div>
-            {/* More Filter */}
-            <Link
-              href={`/top-imdb`}
-              className='flex h-full w-full items-center justify-center space-x-2 rounded-xl bg-black-200 py-2 text-white lg:px-6'
-            >
-              <button className='flex items-center gap-2 p-2'>
-                More Filters
-                <Plus size={22} className='text-white' />
-              </button>
-            </Link>
+              {/* Genre Dropdown */}
+              <div className='flex h-full w-full cursor-pointer items-center justify-center space-x-2 rounded-xl bg-black-200 py-2 text-white hover:bg-primary lg:px-6'>
+                <select
+                  id='genre'
+                  name='Genres'
+                  className='w-full cursor-pointer bg-black-200 bg-transparent py-2 text-center text-white xl:px-2'
+                  value={selectedGenre}
+                  onChange={(e) => dispatch(setSelectedGenre(e.target.value))}
+                >
+                  <option value='' disabled>
+                    Select Genre
+                  </option>
+                  {genres.map((genre) => (
+                    <option
+                      key={genre.id}
+                      value={genre.id}
+                      className='bg-black-300 capitalize'
+                    >
+                      {genre.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            {/* Search Button */}
-            <div className='flex cursor-pointer justify-center md:col-span-2 md:items-center xl:col-span-1'>
-              <button
-                onClick={handleSearch}
-                className='inline-flex gap-1 rounded-2xl bg-primary from-primary to-accent/70 px-10 py-4 text-white transition-all duration-300 hover:scale-125 hover:bg-gradient-to-tr hover:drop-shadow-lg 2xl:scale-125 2xl:hover:scale-150'
+              {/* Year Picker Button */}
+              <div className='flex h-full w-full items-center justify-center'>
+                <button
+                  className='w-full rounded-xl bg-black-200 px-4 py-4 text-white hover:bg-primary'
+                  onClick={() => dispatch(setShowModal(true))}
+                >
+                  {selectedYear}
+                </button>
+              </div>
+              {/* More Filter */}
+              <Link
+                href={`/top-imdb`}
+                className='flex h-full w-full items-center justify-center space-x-2 rounded-xl bg-black-200 py-2 text-white hover:bg-primary lg:px-6'
               >
-                Search <Search size={22} />
-              </button>
+                <button className='flex items-center gap-2 p-2'>
+                  More Filters
+                  <Plus size={22} className='text-white' />
+                </button>
+              </Link>
+
+              {/* Search Button */}
+              <div className='flex cursor-pointer justify-center md:col-span-2 md:items-center xl:col-span-1'>
+                <button
+                  onClick={handleSearch}
+                  className='inline-flex gap-1 rounded-2xl bg-primary from-primary to-accent/70 px-10 py-4 text-white transition-all duration-300 hover:scale-125 hover:bg-gradient-to-tr hover:drop-shadow-lg 2xl:scale-125 2xl:hover:scale-150'
+                >
+                  Search <Search size={22} />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -153,11 +155,11 @@ const FilterSection = () => {
         {/* Modal */}
         {showModal && (
           <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
-            <div className='w-full max-w-xl overflow-scroll rounded-lg bg-black-200 p-6'>
+            <div className='w-full max-w-xl rounded-lg bg-black-200 p-6'>
               <h2 className='mb-4 text-center text-lg font-bold text-white'>
                 Select Year
               </h2>
-              <div className='grid max-h-80 grid-cols-7 gap-4 overflow-y-auto'>
+              <div className='grid max-h-80 grid-cols-3 gap-4 overflow-y-auto md:grid-cols-5 lg:grid-cols-7'>
                 {getLastTenYears().map((year) => (
                   <button
                     key={year}
