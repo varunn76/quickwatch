@@ -1,7 +1,11 @@
 import React from 'react';
 
 const FilteredContent = ({ filteredData }: { filteredData: any[] }) => {
-  return <div className='h-screen rounded-2xl bg-black-300'></div>;
+  return (
+    <section className='absolute top-60'>
+      <div className='h-auto rounded-2xl border bg-black-300'></div>
+    </section>
+  );
 };
 
 export default FilteredContent;

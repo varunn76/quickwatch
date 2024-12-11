@@ -1,7 +1,4 @@
-import ButtonWrapper from '@/components/ButtonWrapper';
 import LandingPage from '@/components/LandingPage';
-import LandingPagePoster from '@/components/LandingPagePoster';
-import SearchForm from '@/components/SearchForm';
 
 export default async function Home({
   searchParams,
@@ -11,7 +8,7 @@ export default async function Home({
   const query = (await searchParams).query;
 
   return (
-    <div className='overflow-x-clip bg-black-300'>
+    <div className='h-full overflow-x-clip bg-black-300'>
       <LandingPage query={query} />
     </div>
   );

@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import MaxWidthWrapper from './MaxWidthWrapper';
-import Image from 'next/image';
 
 const LandingPagePoster = ({
   className,
@@ -15,7 +14,7 @@ const LandingPagePoster = ({
   // style: React.CSSProperties;
 }) => {
   return (
-    <div className={`absolute ${className}`}>
+    <div className={`absolute ${className} `}>
       <MaxWidthWrapper>
         <img
           src={imgUrl}

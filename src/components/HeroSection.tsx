@@ -1,21 +1,46 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/Store';
 
 import { getImageUrl } from '@/utils/imageUrlFormat';
 import Loader from '@/app/loading';
 import PopularBanner from './PopularBanner';
+import {
+  setPopularData,
+  setLoading,
+  setError,
+} from '@/redux/slices/popularSlice';
+import { fetchPopular } from '@/utils';
 
 const HeroSection = () => {
-  const { popularData, currentIndex, loading, error } = useSelector(
+  const dispatch = useDispatch();
+  const { popularData, currentIndex, loading } = useSelector(
     (state: RootState) => state.popular
   );
+  console.log('Hero section', popularData);
 
   const currentSlide = popularData[currentIndex];
 
-  if (loading || !currentSlide?.backdrop_path) {
+  useEffect(() => {
+    const getPopularData = async () => {
+      dispatch(setLoading(true));
+      try {
+        const data = await fetchPopular();
+        dispatch(setPopularData(data));
+      } catch (err: any) {
+        dispatch(setError(err.message));
+      } finally {
+        dispatch(setLoading(false));
+      }
+    };
+
+    getPopularData();
+  }, [dispatch]);
+
+  if (loading) {
     return (
       <div className='flex h-screen items-center justify-center bg-black-300'>
         <Loader />
@@ -23,13 +48,13 @@ const HeroSection = () => {
     );
   }
 
-  if (error) {
-    return (
-      <div className='flex h-screen items-center justify-center text-red-500'>
-        <p>Error: {error}</p>
-      </div>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <div className='flex h-screen items-center justify-center text-red-500'>
+  //       <p>Error: {error}</p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <section>
