@@ -47,7 +47,6 @@ const FilterSection = () => {
         throw new Error(`Failed to fetch data: ${response.statusText}`);
       }
       const result = await response.json();
-      console.log('result', result);
 
       dispatch(setData(result));
     } catch (error) {
@@ -63,22 +62,23 @@ const FilterSection = () => {
       genre: selectedGenre.toLowerCase(),
       year: selectedYear,
     });
-    console.log('params', params);
 
     await fetchData(params);
   };
 
-  useEffect(() => {
-    fetchData();
-  }, [dispatch]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [dispatch]);
+
+  const finaleData = data?.data?.results;
+  console.log('Finished', finaleData);
 
   return (
-    <section className='section_container h-screen'>
-      <MaxWidthWrapper className='relative'>
-        <div className='absolute w-full xl:-top-20'>
-          <div className='jus h-full rounded-3xl bg-black-300'>
+    <section className='section_container relative'>
+      <MaxWidthWrapper className='relative lg:-top-20'>
+        <div className='w-full xl:max-w-screen-2xl'>
+          <div className='h-full rounded-3xl bg-black-300'>
             <div className='grid h-full grid-cols-1 gap-4 px-4 py-8 md:grid-cols-2 xl:grid-cols-5 xl:gap-8'>
-              {/* Category Filters */}
               <div className='flex h-full items-center justify-center space-x-2 rounded-xl bg-black-200 py-2 text-white'>
                 {versions.map((version) => (
                   <p
@@ -95,7 +95,6 @@ const FilterSection = () => {
                 ))}
               </div>
 
-              {/* Genre Dropdown */}
               <div className='flex h-full w-full cursor-pointer items-center justify-center space-x-2 rounded-xl bg-black-200 py-2 text-white hover:bg-primary lg:px-6'>
                 <select
                   id='genre'
@@ -119,7 +118,6 @@ const FilterSection = () => {
                 </select>
               </div>
 
-              {/* Year Picker Button */}
               <div className='flex h-full w-full items-center justify-center'>
                 <button
                   className='w-full rounded-xl bg-black-200 px-4 py-4 text-white hover:bg-primary'
@@ -128,7 +126,7 @@ const FilterSection = () => {
                   {selectedYear}
                 </button>
               </div>
-              {/* More Filter */}
+
               <Link
                 href={`/top-imdb`}
                 className='flex h-full w-full items-center justify-center space-x-2 rounded-xl bg-black-200 py-2 text-white hover:bg-primary lg:px-6'
@@ -139,7 +137,6 @@ const FilterSection = () => {
                 </button>
               </Link>
 
-              {/* Search Button */}
               <div className='flex cursor-pointer justify-center md:col-span-2 md:items-center xl:col-span-1'>
                 <button
                   onClick={handleSearch}
@@ -152,7 +149,6 @@ const FilterSection = () => {
           </div>
         </div>
 
-        {/* Modal */}
         {showModal && (
           <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
             <div className='w-full max-w-xl rounded-lg bg-black-200 p-6'>
@@ -184,15 +180,16 @@ const FilterSection = () => {
             </div>
           </div>
         )}
-
-        {/* Loading and Filtered Content */}
-        {loading ? (
+      </MaxWidthWrapper>
+      <MaxWidthWrapper>
+        {/* {loading ? (
           <div className='flex h-screen items-center justify-center bg-black-300'>
             <Loader />
           </div>
         ) : (
-          <FilteredContent filteredData={data} />
-        )}
+          <FilteredContent filteredData={finaleData} />
+        )} */}
+        {finaleData && <FilteredContent filteredData={finaleData} />}
       </MaxWidthWrapper>
     </section>
   );

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 
 // Define the shape of your state
 interface DiscoverState {
-  data: any | null;
+  data: any[] | null;
   loading: boolean;
   error: string | null;
 }
