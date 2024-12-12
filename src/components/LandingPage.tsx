@@ -1,7 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -16,11 +13,37 @@ import {
   setLoading,
   setError,
 } from '@/redux/slices/popularSlice';
-import { fetchPopular, POSTERDATA } from '@/utils';
+import { fetchPopular } from '@/utils';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Fetch popular movies
+export const POSTERDATA = [
+  { className: 'top-[0px] left-[10px] lg:left-[120px] xl:left-[210px]' },
+  {
+    className:
+      'top-[50px] right-[10px] md:top-[0px] lg:right-[120px] xl:right-[210px]',
+  },
+  {
+    className:
+      'top-[320px] left-[10px] md:top-[150px] md:left-[200px] lg:left-[300px] xl:top-[120px] xl:left-[520px]',
+  },
+  {
+    className:
+      'top-[380px] md:top-[150px] right-[10px] md:right-[200px] lg:right-[300px] xl:right-[480px]',
+  },
+  {
+    className:
+      'md:top-[450px] hidden lg:block lg:left-[100px] xl:top-[350px] xl:left-[340px]',
+  },
+  {
+    className:
+      'md:top-[450px] hidden lg:block lg:right-[100px] xl:top-[350px] xl:right-[300px]',
+  },
+  {
+    className:
+      'md:top-[520px] hidden lg:block lg:left-[430px] xl:top-[350px] xl:left-[710px]',
+  },
+];
 
 const shuffleArray = (array: any[]) => {
   const shuffled = [...array];
@@ -31,24 +54,25 @@ const shuffleArray = (array: any[]) => {
   return shuffled;
 };
 
-interface posterType {
+interface PosterType {
   poster_path: string | null;
   title: string;
   id: number;
   className: string;
 }
+
 const LandingPage = ({ query }: { query: string | undefined }) => {
   const dispatch = useDispatch();
   const { popularData } = useSelector((state: RootState) => state.popular);
   const containerRef = useRef<HTMLDivElement>(null);
   const [itemsToShow, setItemsToShow] = useState(4);
   const [shuffledPosterData, setShuffledPosterData] = useState<
-    Array<posterType>
+    Array<PosterType>
   >([]);
 
   useEffect(() => {
     const updateItemsToShow = () => {
-      setItemsToShow(window.innerWidth >= 1020 ? 7 : 4);
+      setItemsToShow(window.innerWidth >= 768 ? 7 : 4);
     };
 
     updateItemsToShow(); // Initial call
@@ -99,9 +123,11 @@ const LandingPage = ({ query }: { query: string | undefined }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    setShuffledPosterData(shuffleArray(POSTERDATA));
+    // Shuffle poster data only if POSTERDATA is available
+    if (POSTERDATA.length > 0) {
+      setShuffledPosterData(shuffleArray(POSTERDATA));
+    }
   }, []);
-  console.log('landing popular data', popularData);
 
   return (
     <>
@@ -127,20 +153,24 @@ const LandingPage = ({ query }: { query: string | undefined }) => {
         className='new_container w-ful relative mx-auto min-h-screen overflow-y-hidden'
         ref={containerRef}
       >
-        {popularData
-          .slice(0, itemsToShow)
-          .map(({ poster_path, title, id }, index) => {
-            const { className } =
-              shuffledPosterData[index % shuffledPosterData.length];
-            return (
-              <LandingPagePoster
-                key={id}
-                className={`poster absolute ${className}`}
-                imgUrl={getImageUrl(poster_path, 'w500') || '/placeholder.jpg'}
-                alt={title}
-              />
-            );
-          })}
+        {popularData.length > 0 && shuffledPosterData.length > 0
+          ? popularData
+              .slice(0, itemsToShow)
+              .map(({ poster_path, title, id }, index) => {
+                const { className } =
+                  shuffledPosterData[index % shuffledPosterData.length];
+                return (
+                  <LandingPagePoster
+                    key={id}
+                    className={`poster absolute ${className}`}
+                    imgUrl={
+                      getImageUrl(poster_path, 'w500') || '/placeholder.jpg'
+                    }
+                    alt={title}
+                  />
+                );
+              })
+          : null}
       </section>
     </>
   );

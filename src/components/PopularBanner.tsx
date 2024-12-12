@@ -27,8 +27,6 @@ const fetchMovieBanner = async (id: number | undefined) => {
       throw new Error(`Failed to fetch popular data: ${response.statusText}`);
     }
     const data = await response.json();
-    console.log('dtatatatat', data);
-
     return data;
   } catch (error) {
     console.error('Error fetching movie data:', error);
@@ -41,7 +39,6 @@ function PopularBanner({ currentIndex }: { currentIndex: number }) {
   const { popularData, loading } = useSelector(
     (state: RootState) => state.popular
   );
-  console.log('popular data', popularData);
 
   const currentSlide = popularData[currentIndex];
   const title: string = currentSlide?.title;
@@ -125,12 +122,12 @@ function PopularBanner({ currentIndex }: { currentIndex: number }) {
         {currentSlide?.poster_path && (
           <Link
             href={`/movie/${slugify(`${title}`, { lower: true, strict: true })}`}
-            className='absolute left-1/2 top-[69%] w-full -translate-x-1/2 -translate-y-1/2 md:hidden'
+            className='absolute left-1/2 top-[59%] w-full -translate-x-1/2 -translate-y-1/2 md:hidden'
           >
             <LazyLoadImage
               src={getImageUrl(currentSlide.poster_path, 'w500')}
               alt={currentSlide.title || 'Poster'}
-              className='mx-auto h-[300px] w-[200px] rounded-lg border-2 object-cover shadow-2xl'
+              className='mx-auto h-[270px] w-[175px] rounded-lg border-2 object-cover shadow-2xl'
             />
           </Link>
         )}
@@ -142,7 +139,7 @@ function PopularBanner({ currentIndex }: { currentIndex: number }) {
               className=''
               href={`/movie/${slugify(`${title}`, { lower: true, strict: true })}`}
             >
-              <h1 className='line-clamp-2 text-start text-4xl font-medium hover:text-secondary lg:text-5xl 2xl:text-6xl'>
+              <h1 className='line-clamp-1 text-start text-4xl font-medium hover:text-secondary md:line-clamp-2 lg:text-5xl 2xl:text-6xl'>
                 {title}
               </h1>
             </Link>
@@ -161,7 +158,7 @@ function PopularBanner({ currentIndex }: { currentIndex: number }) {
               <>
                 <div className='sub-heading flex flex-wrap gap-3 py-3 !text-[0.8rem] lg:!text-[1rem] 2xl:!text-[1.5rem]'>
                   {movieData?.genres &&
-                    movieData.genres.map((gener: string, index: any) => (
+                    movieData.genres.map((gener: string, index: number) => (
                       <span
                         key={index}
                         className='rounded-xl bg-primary/40 px-2 py-1.5'

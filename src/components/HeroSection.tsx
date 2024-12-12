@@ -20,7 +20,6 @@ const HeroSection = () => {
   const { popularData, currentIndex, loading } = useSelector(
     (state: RootState) => state.popular
   );
-  console.log('Hero section', popularData);
 
   const currentSlide = popularData[currentIndex];
 
@@ -40,7 +39,7 @@ const HeroSection = () => {
     getPopularData();
   }, [dispatch]);
 
-  if (loading) {
+  if (loading || !currentSlide?.backdrop_path) {
     return (
       <div className='flex h-screen items-center justify-center bg-black-300'>
         <Loader />

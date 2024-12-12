@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // store/slices/filterSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 

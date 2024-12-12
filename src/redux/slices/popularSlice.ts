@@ -5,7 +5,7 @@ interface Movie {
   id: number;
   title: string;
   poster_path: string;
-  backdrop_path: string | null;
+  backdrop_path: string;
 }
 
 interface PopularState {
