@@ -40,7 +40,7 @@
   }
 
   .text-30-bold {
-    @apply text-[30px] font-bold text-black;
+    @apply text-[30px] font-bold text-white;
   }
 
   .text-30-semibold {

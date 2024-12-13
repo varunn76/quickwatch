@@ -12,6 +12,8 @@ const Card = ({
   className = '',
   imgClassName = '',
   posterWidth = 'w500',
+  filterType,
+  releaseYear,
   bgColor = true,
 }: {
   src: string;
@@ -20,26 +22,44 @@ const Card = ({
   imgClassName?: string;
   posterWidth?: ImageSize;
   bgColor?: boolean;
+  releaseYear?: number | null;
+  filterType?: string;
 }) => {
   return (
     <Link
       href={`/movie/${slugify(`${title}`, { lower: true, strict: true })}`}
-      className={`group relative flex w-full flex-col items-center overflow-hidden rounded-lg ${className}`}
+      className={`group relative flex w-full flex-col items-center  overflow-hidden rounded-3xl ${className}`}
     >
       <Suspense fallback={<Skeleton className={className} />}>
         <LazyLoadImage
-          src={getImageUrl(src, posterWidth) || '/poster_skeleton.png'}
+          src={getImageUrl(src, posterWidth)}
           alt={title || 'Poster'}
-          className={`rounded-lg object-cover shadow-2xl transition-transform duration-300 ease-in-out group-hover:scale-105 ${imgClassName}`}
+          placeholderSrc='/poster_skeleton.png'
+          className={`rounded-xl object-cover shadow-2xl transition-transform duration-300 ease-in-out group-hover:scale-105 ${imgClassName}`}
         />
       </Suspense>
 
-      {bgColor && (
-        <div className='to-transparentopacity-100 absolute inset-0 rounded-lg bg-gradient-to-t from-primary via-black/30 transition-opacity duration-300 ease-in-out'></div>
-      )}
-      <p className='absolute bottom-2 left-2 right-2 z-10 line-clamp-1 text-center text-sm font-semibold text-white transition-opacity duration-300 ease-in-out group-hover:opacity-100'>
-        {title}
-      </p>
+      <div className='absolute inset-0 flex flex-col items-center justify-end rounded-lg'>
+        {/* Background Overlay */}
+        {bgColor && (
+          <div className='absolute inset-0 rounded-lg bg-gradient-to-t from-primary via-black/30 opacity-100 transition-opacity duration-300 ease-in-out group-hover:opacity-0'></div>
+        )}
+
+        {/* Content Section */}
+        <div className='absolute bottom-2 flex h-[80px] w-[95%] flex-col items-start justify-between rounded-xl pb-2 transition-all duration-300 ease-in-out group-hover:backdrop-blur-md'>
+          <span className='flex gap-2 px-1 py-2'>
+            <p className='rounded-lg bg-accent/40 px-2 text-sm font-medium text-white-100'>
+              {filterType}
+            </p>
+            <p className='rounded-lg bg-accent/40 px-2 text-sm font-medium text-white-100'>
+              {releaseYear}
+            </p>
+          </span>
+          <p className='line-clamp-1 px-2 text-center text-lg font-semibold text-white transition-opacity duration-300 ease-in-out group-hover:opacity-100'>
+            {title}
+          </p>
+        </div>
+      </div>
     </Link>
   );
 };
