@@ -25,23 +25,27 @@ export const POSTERDATA = [
   },
   {
     className:
-      'top-[320px] left-[10px] md:top-[150px] md:left-[200px] lg:left-[300px] xl:top-[120px] xl:left-[520px]',
+      'top-[320px] left-[10px]  md:top-[150px] md:left-[200px] lg:left-[300px] xl:top-[120px] xl:left-[520px]',
   },
   {
     className:
-      'top-[380px] md:top-[150px] right-[10px] md:right-[200px] lg:right-[300px] xl:right-[480px]',
+      'top-[380px] md:top-[150px]  right-[10px] md:right-[200px] xl:top-[120px] lg:right-[300px] xl:right-[480px]',
   },
   {
     className:
-      'md:top-[450px] hidden lg:block lg:left-[100px] xl:top-[350px] xl:left-[340px]',
+      'md:top-[450px] hidden  lg:block lg:left-[100px] xl:top-[400px] xl:left-[300px]  xxl:top-[350px] xxl:left-[360px]',
   },
   {
     className:
-      'md:top-[450px] hidden lg:block lg:right-[100px] xl:top-[350px] xl:right-[300px]',
+      'md:top-[450px] hidden xxl:block lg:right-[100px] xl:top-[350px] xxl:top-[280px] xxl:right-[720px] ',
   },
   {
     className:
-      'md:top-[520px] hidden lg:block lg:left-[430px] xl:top-[350px] xl:left-[710px]',
+      'md:top-[520px] hidden lg:block lg:left-[430px] xl:top-[500px] xxl:top-[450px] xl:left-[660px] xxl:left-[720px]',
+  },
+  {
+    className:
+      'md:top-[450px] hidden  xl:block lg:right-[100px] xl:top-[480px] xl:right-[300px] ',
   },
 ];
 
@@ -65,21 +69,9 @@ const LandingPage = ({ query }: { query: string | undefined }) => {
   const dispatch = useDispatch();
   const { popularData } = useSelector((state: RootState) => state.popular);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [itemsToShow, setItemsToShow] = useState(4);
   const [shuffledPosterData, setShuffledPosterData] = useState<
     Array<PosterType>
   >([]);
-
-  useEffect(() => {
-    const updateItemsToShow = () => {
-      setItemsToShow(window.innerWidth >= 768 ? 7 : 4);
-    };
-
-    updateItemsToShow(); // Initial call
-    window.addEventListener('resize', updateItemsToShow);
-
-    return () => window.removeEventListener('resize', updateItemsToShow);
-  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -154,22 +146,20 @@ const LandingPage = ({ query }: { query: string | undefined }) => {
         ref={containerRef}
       >
         {popularData.length > 0 && shuffledPosterData.length > 0
-          ? popularData
-              .slice(0, itemsToShow)
-              .map(({ poster_path, title, id }, index) => {
-                const { className } =
-                  shuffledPosterData[index % shuffledPosterData.length];
-                return (
-                  <LandingPagePoster
-                    key={id}
-                    className={`poster absolute ${className}`}
-                    imgUrl={
-                      getImageUrl(poster_path, 'w500') || '/placeholder.jpg'
-                    }
-                    alt={title}
-                  />
-                );
-              })
+          ? popularData.slice(0, 8).map(({ poster_path, title, id }, index) => {
+              const { className } =
+                shuffledPosterData[index % shuffledPosterData.length];
+              return (
+                <LandingPagePoster
+                  key={id}
+                  className={`poster absolute ${className}`}
+                  imgUrl={
+                    getImageUrl(poster_path, 'w500') || '/placeholder.jpg'
+                  }
+                  alt={title}
+                />
+              );
+            })
           : null}
       </section>
     </>

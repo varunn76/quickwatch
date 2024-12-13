@@ -28,8 +28,9 @@ const Card = ({
     >
       <Suspense fallback={<Skeleton className={className} />}>
         <LazyLoadImage
-          src={getImageUrl(src, posterWidth) || '/poster_skeleton.png'}
+          src={getImageUrl(src, posterWidth)}
           alt={title || 'Poster'}
+          placeholderSrc='/poster_skeleton.png'
           className={`rounded-lg object-cover shadow-2xl transition-transform duration-300 ease-in-out group-hover:scale-105 ${imgClassName}`}
         />
       </Suspense>

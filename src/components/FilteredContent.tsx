@@ -1,13 +1,24 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { Suspense, useState } from 'react';
+'use client';
+import React, { Suspense, useEffect, useState } from 'react';
 import Card from './Card';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Skeleton } from './ui/skeleton';
 
 const ITEMS_PER_PAGE = 8;
 
-const FilteredContent = ({ filteredData = [] }: { filteredData: any[] }) => {
+const FilteredContent = ({
+  filteredData = [],
+  filterType,
+}: {
+  filteredData: any[];
+  filterType: string;
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
+  console.log('filteredData', filteredData);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filteredData]);
 
   if (!Array.isArray(filteredData)) {
     console.error(
@@ -16,7 +27,11 @@ const FilteredContent = ({ filteredData = [] }: { filteredData: any[] }) => {
     );
     return null;
   }
-  console.log('filteredData[0]?.title', filteredData[0]?.title);
+
+  const highestRatedMovieOrTvSeries = filteredData.reduce(
+    (max, item) => (item.vote_average > (max.vote_average || 0) ? item : max),
+    {}
+  );
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -32,34 +47,32 @@ const FilteredContent = ({ filteredData = [] }: { filteredData: any[] }) => {
   };
 
   return (
-    <section className='mx-auto mt-10 lg:mt-0 flex flex-col rounded-3xl sm:bg-black-300'>
+    <section className='mx-auto mt-10 flex flex-col rounded-3xl sm:bg-black-300 lg:mt-0'>
       <div className='flex-row xl:flex'>
-        <div className='grid grid-cols-2 gap-8 sm:px-8 sm:py-8 md:grid-cols-3 xl:w-[75%] lg:grid-cols-4'>
-          {paginatedData.map((data, index) => (
-            <Suspense
-              key={index}
-              fallback={
-                <Skeleton className='rounded-xl sm:h-[270px] sm:w-[175px]' />
-              }
-            >
-              <Card
-                title={data?.title || 'Untitled'}
-                src={data?.poster_path || ''}
-                className='sm:h-[270px] sm:w-[175px]'
-                imgClassName='sm:h-[270px] sm:w-[175px]'
-              />
-            </Suspense>
-          ))}
+        <div className='grid grid-cols-2 gap-8 sm:px-8 sm:py-8 md:grid-cols-3 lg:grid-cols-4 xl:w-[75%]'>
+          {filteredData.length === 0
+            ? Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
+                <Skeleton key={index} className='sm:h-[270px] sm:w-[175px]' />
+              ))
+            : paginatedData.map((data, index) => (
+                <Card
+                  key={index}
+                  title={data?.title || 'Untitled'}
+                  src={data?.poster_path || ''}
+                  className='sm:h-[270px] sm:w-[175px]'
+                  imgClassName='sm:h-[270px] sm:w-[175px]'
+                />
+              ))}
         </div>
-        <div className='hidden w-fit justify-start px-8 py-8 xl:flex'>
+        <div className='hidden w-fit flex-col justify-start px-8 py-8 xl:flex'>
           <Suspense
             fallback={
               <Skeleton className='h-[400px] w-[270px] rounded-xl sm:h-[500px] sm:w-[340px] md:h-[600px] md:w-[400px]' />
             }
           >
             <Card
-              title={filteredData[0]?.title || 'Untitled'}
-              src={filteredData[0]?.poster_path || ''}
+              title={highestRatedMovieOrTvSeries?.title || 'Untitled'}
+              src={highestRatedMovieOrTvSeries?.poster_path || ''}
               className='h-[400px] w-[270px] sm:h-[500px] sm:w-[340px] md:h-[600px] md:w-[400px]'
               imgClassName='h-[400px] w-[270px] sm:h-[500px] sm:w-[340px] md:h-[600px] md:w-[400px]'
               bgColor={false}

@@ -189,7 +189,12 @@ const FilterSection = () => {
         ) : (
           <FilteredContent filteredData={finaleData} />
         )} */}
-        {finaleData && <FilteredContent filteredData={finaleData} />}
+     {finaleData && (
+          <FilteredContent
+            filteredData={finaleData}
+            filterType={activeFilter}
+          />
+        )}
       </MaxWidthWrapper>
     </section>
   );
