@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const POSTERDATA = [
   { className: 'top-[0px] left-[10px] lg:left-[120px] xl:left-[210px]' },
   {
@@ -33,3 +34,26 @@ export const fetchPopular = async () => {
   const data = await response.json();
   return data.data.results.slice(0, 10);
 };
+
+export function getYearFromDate(dateString: string): number | null {
+  try {
+    // Validate the format using a regex
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(dateString)) {
+      throw new Error('Invalid date format. Expected format: YYYY-MM-DD.');
+    }
+
+    // Create a Date object
+    const date = new Date(dateString);
+
+    // Check if the date is valid
+    if (isNaN(date.getTime())) {
+      throw new Error('Invalid date.');
+    }
+
+    return date.getFullYear();
+  } catch (error: any) {
+    console.error(error.message);
+    return null;
+  }
+}

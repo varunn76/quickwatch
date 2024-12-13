@@ -1,5 +1,6 @@
 import FilterSection from '@/components/FilterSection';
 import HeroSection from '@/components/HeroSection';
+import TrendingSection from '@/components/TrendingSection';
 import React from 'react';
 
 const Page = () => {
@@ -7,6 +8,7 @@ const Page = () => {
     <div className='h-screen w-full'>
       <HeroSection />
       <FilterSection />
+      <TrendingSection />
     </div>
   );
 };

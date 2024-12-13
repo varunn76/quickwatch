@@ -181,21 +181,17 @@ const FilterSection = () => {
           </div>
         )}
       </MaxWidthWrapper>
-      <MaxWidthWrapper>
-        {/* {loading ? (
+
+      {/* {loading ? (
           <div className='flex h-screen items-center justify-center bg-black-300'>
             <Loader />
           </div>
         ) : (
           <FilteredContent filteredData={finaleData} />
         )} */}
-     {finaleData && (
-          <FilteredContent
-            filteredData={finaleData}
-            filterType={activeFilter}
-          />
-        )}
-      </MaxWidthWrapper>
+      {finaleData && (
+        <FilteredContent filteredData={finaleData} filterType={activeFilter} />
+      )}
     </section>
   );
 };
