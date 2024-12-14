@@ -1,16 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 import MaxWidthWrapper from './MaxWidthWrapper';
 import { useQuery } from '@tanstack/react-query';
 import Card from './Card';
 import { getYearFromDate } from '@/utils';
+import { Skeleton } from './ui/skeleton';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 const TrendingSection = () => {
   const [version, setVersion] = useState('all');
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const postersPerPage = 5;
+  const [postersPerPage, setPostersPerPage] = useState(5);
 
   const { isLoading: isTrendingLoading, data } = useQuery({
     queryKey: ['trending Data', version],
@@ -23,40 +26,78 @@ const TrendingSection = () => {
   });
 
   const trendingData = data?.data?.results || [];
-  const totalPosters = trendingData.length;
-  const totalPages = Math.ceil(trendingData.length / postersPerPage);
 
-  const handleNext = () => {
-    if (currentIndex + postersPerPage < totalPosters) {
-      setCurrentIndex((prevIndex) => prevIndex + postersPerPage);
-    }
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: postersPerPage,
+      slidesToSlide: postersPerPage,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: postersPerPage,
+      slidesToSlide: postersPerPage,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: postersPerPage,
+      slidesToSlide: postersPerPage,
+    },
   };
 
-  const handlePrev = () => {
-    if (currentIndex - postersPerPage >= 0) {
-      setCurrentIndex((prevIndex) => prevIndex - postersPerPage);
-    }
-  };
+  useEffect(() => {
+    const updatePostersPerPage = () => {
+      const width = window.innerWidth;
+      if (width > 1024) setPostersPerPage(5);
+      else if (width > 768) setPostersPerPage(4);
+      else if (width > 464) setPostersPerPage(3);
+      else setPostersPerPage(1);
+    };
 
-  const visiblePosters = trendingData.slice(
-    currentIndex,
-    currentIndex + postersPerPage
-  );
+    window.addEventListener('resize', updatePostersPerPage);
+    updatePostersPerPage();
+
+    return () => {
+      window.removeEventListener('resize', updatePostersPerPage);
+    };
+  }, []);
 
   const versions = [
     { name: 'All', value: 'all' },
     { name: 'Movie', value: 'movie' },
     { name: 'Tv Series', value: 'tv' },
   ];
+  const CustomLeftArrow = ({ onClick }: { onClick?: () => void }) => (
+    <button
+      className='absolute left-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-primary p-2 text-white hover:bg-opacity-80 lg:left-0'
+      onClick={onClick}
+    >
+      <ArrowLeft size={20} />
+    </button>
+  );
 
+  const CustomRightArrow = ({ onClick }: { onClick?: () => void }) => (
+    <button
+      className='absolute right-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-primary p-2 text-white hover:bg-opacity-80 lg:right-0'
+      onClick={onClick}
+    >
+      <ArrowRight size={20} />
+    </button>
+  );
   return (
-    <section className='section_container'>
+    <section className='section_container relative overflow-hidden'>
       <MaxWidthWrapper>
-        <div className='relative mx-auto flex h-[400px] flex-col'>
-          <div>
+        <div className='relative mx-auto flex h-full flex-col'>
+          <div className='flex items-center justify-between'>
             <h2 className='text-3xl font-bold text-white'>Trending</h2>
+            <Link href={`/movie`}>
+              <span className='md:flex md:gap-2'>
+                <p className='hidden md:block text-base font-medium text-white-100/60'>View All</p>
+                <ArrowRight className='text-white-100/60 ' />
+              </span>
+            </Link>
           </div>
-          <div className='flex w-full items-center justify-start space-x-2 rounded-xl bg-black-200 py-2 text-white'>
+          <div className='flex w-full items-center justify-start space-x-2 rounded-xl bg-black-200 py-6 text-white'>
             {versions.map((item, index) => (
               <p
                 key={index}
@@ -71,53 +112,41 @@ const TrendingSection = () => {
               </p>
             ))}
           </div>
-          <div className='relative my-6 flex items-center overflow-hidden'>
-            {currentIndex > 0 && (
-              <button
-                className='absolute z-10 cursor-pointer rounded-full bg-primary from-primary to-accent/70 p-2 text-white hover:bg-gradient-to-tr hover:drop-shadow-lg disabled:opacity-50'
-                onClick={handlePrev}
-                disabled={currentIndex === 0}
-              >
-                <ArrowLeft size={30} />
-              </button>
-            )}
-            <div
-              className='flex h-full w-full justify-start gap-4 overflow-hidden pl-16 transition-transform duration-300'
-              style={{
-                transform: `translateX(-${Math.max(
-                  0,
-                  Math.min(
-                    currentIndex * (40 + 16),
-                    (totalPosters - postersPerPage) * (40 + 16)
-                  )
-                )}px)`,
-              }}
-            >
-              {visiblePosters.map((data: any, index: number) => (
-                <Card
-                  key={index}
-                  title={data?.title || data?.name || 'Untitled'}
-                  src={data?.poster_path || ''}
-                  className='w-[210px] flex-none'
-                  imgClassName='h-[320px] w-[210px]'
-                  filterType='Movie'
-                  bgColor={false}
-                  releaseYear={getYearFromDate(
-                    data?.release_date || data?.first_air_date
-                  )}
-                />
-              ))}
-            </div>
-            {currentIndex + postersPerPage < totalPosters && (
-              <button
-                className='absolute right-0 z-10 cursor-pointer rounded-full bg-primary from-primary to-accent/70 p-2 text-white hover:bg-gradient-to-tr hover:drop-shadow-lg disabled:opacity-50'
-                onClick={handleNext}
-                disabled={currentIndex === totalPages - 1}
-              >
-                <ArrowRight size={30} />
-              </button>
-            )}
-          </div>
+
+          <Carousel
+            responsive={responsive}
+            swipeable={true}
+            draggable={true}
+            autoPlaySpeed={3000}
+            keyBoardControl={true}
+            customTransition='all .5s'
+            customLeftArrow={<CustomLeftArrow />}
+            customRightArrow={<CustomRightArrow />}
+            transitionDuration={500}
+          >
+            {isTrendingLoading
+              ? Array.from({ length: postersPerPage }).map((_, index) => (
+                  <div key={index} className='w-[220px] mx-auto flex-none px-2'>
+                    <Skeleton className='h-[320px] w-full rounded-3xl' />
+                  </div>
+                ))
+              : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                trendingData.map((data: any, index: number) => (
+                  <div key={index} className='mx-auto w-[220px] flex-none px-2'>
+                    <Card
+                      title={data?.title || data?.name || 'Untitled'}
+                      src={data?.poster_path || ''}
+                      className='w-full'
+                      imgClassName='h-[320px] w-full'
+                      filterType='Movie'
+                      bgColor={false}
+                      releaseYear={getYearFromDate(
+                        data?.release_date || data?.first_air_date
+                      )}
+                    />
+                  </div>
+                ))}
+          </Carousel>
         </div>
       </MaxWidthWrapper>
     </section>
