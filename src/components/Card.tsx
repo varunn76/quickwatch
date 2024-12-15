@@ -1,21 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getImageUrl, ImageSize } from '@/utils/imageUrlFormat';
-import Link from 'next/link';
 import React, { Suspense } from 'react';
+import Link from 'next/link';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import slugify from 'slugify';
+import { getImageUrl, ImageSize } from '@/utils/imageUrlFormat';
 import { Skeleton } from './ui/skeleton';
 
-const Card = ({
-  title,
-  src,
-  className = '',
-  imgClassName = '',
-  posterWidth = 'w500',
-  filterType,
-  releaseYear,
-  bgColor = true,
-}: {
+interface CardProps {
   src: string;
   title: string;
   className?: string;
@@ -23,14 +14,31 @@ const Card = ({
   posterWidth?: ImageSize;
   bgColor?: boolean;
   releaseYear?: number | null;
+  blur?: boolean;
   filterType?: string;
+}
+
+const Card: React.FC<CardProps> = ({
+  title,
+  src,
+  className = '',
+  imgClassName = '',
+  posterWidth = 'w500',
+  filterType,
+  releaseYear,
+  blur = true,
+  bgColor = true,
 }) => {
   return (
     <Link
-      href={`/movie/${slugify(`${title}`, { lower: true, strict: true })}`}
-      className={`group relative flex w-full flex-col items-center  overflow-hidden rounded-3xl ${className}`}
+      href={`/movie/${slugify(title, { lower: true, strict: true })}`}
+      className={`group relative flex w-full flex-col items-center overflow-hidden rounded-3xl ${className}`}
     >
-      <Suspense fallback={<Skeleton className={className} />}>
+      <Suspense
+        fallback={
+          <Skeleton className={`h-[320px] w-full rounded-xl ${className}`} />
+        }
+      >
         <LazyLoadImage
           src={getImageUrl(src, posterWidth)}
           alt={title || 'Poster'}
@@ -39,22 +47,27 @@ const Card = ({
         />
       </Suspense>
 
-      <div className='absolute inset-0 flex flex-col items-center justify-end rounded-lg'>
-        {/* Background Overlay */}
+      <div className='absolute inset-0 flex flex-col items-center justify-end rounded-xl'>
         {bgColor && (
-          <div className='absolute inset-0 rounded-lg bg-gradient-to-t from-primary via-black/30 opacity-100 transition-opacity duration-300 ease-in-out group-hover:opacity-0'></div>
+          <div className='absolute inset-0 rounded-xl bg-gradient-to-t from-primary via-black/30 opacity-100 transition-opacity duration-300 ease-in-out group-hover:opacity-0'></div>
         )}
-
-        {/* Content Section */}
-        <div className='absolute bottom-2 flex h-[80px] w-[95%] flex-col items-start justify-between rounded-xl pb-2 transition-all duration-300 ease-in-out group-hover:backdrop-blur-md'>
-          <span className='flex gap-2 px-1 py-2'>
-            <p className='rounded-lg bg-accent/40 px-2 text-sm font-medium text-white-100'>
-              {filterType}
-            </p>
-            <p className='rounded-lg bg-accent/40 px-2 text-sm font-medium text-white-100'>
-              {releaseYear}
-            </p>
-          </span>
+        <div
+          className={`absolute bottom-2 flex h-[80px] w-[95%] flex-col items-start justify-between rounded-xl pb-2 transition-all duration-300 ease-in-out ${
+            blur ? 'group-hover:backdrop-blur-md' : ''
+          }`}
+        >
+          <div className='flex gap-2 px-1 py-2'>
+            {filterType && (
+              <p className='rounded-lg bg-secondary/60 px-2 text-sm font-medium text-white-100'>
+                {filterType}
+              </p>
+            )}
+            {releaseYear && (
+              <p className='rounded-lg bg-secondary/60 px-2 text-sm font-medium text-white-100'>
+                {releaseYear}
+              </p>
+            )}
+          </div>
           <p className='line-clamp-1 px-2 text-center text-lg font-semibold text-white transition-opacity duration-300 ease-in-out group-hover:opacity-100'>
             {title}
           </p>

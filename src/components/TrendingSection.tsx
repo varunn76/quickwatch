@@ -14,11 +14,13 @@ import Link from 'next/link';
 const TrendingSection = () => {
   const [version, setVersion] = useState('all');
   const [postersPerPage, setPostersPerPage] = useState(5);
-
+  const [trendingTime, setTrendingTime] = useState('day');
   const { isLoading: isTrendingLoading, data } = useQuery({
-    queryKey: ['trending Data', version],
+    queryKey: ['trending Data', version, trendingTime],
     queryFn: async () => {
-      const response = await fetch(`/api/trending?version=${version}`);
+      const response = await fetch(
+        `/api/trending?version=${version}&trendingTime=${trendingTime}`
+      );
       const data = await response.json();
       return data;
     },
@@ -67,6 +69,11 @@ const TrendingSection = () => {
     { name: 'Movie', value: 'movie' },
     { name: 'Tv Series', value: 'tv' },
   ];
+
+  const trendingTimes = [
+    { name: 'Today', value: 'day' },
+    { name: 'Week', value: 'week' },
+  ];
   const CustomLeftArrow = ({ onClick }: { onClick?: () => void }) => (
     <button
       className='absolute left-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-primary p-2 text-white hover:bg-opacity-80 lg:left-0'
@@ -92,8 +99,10 @@ const TrendingSection = () => {
             <h2 className='text-3xl font-bold text-white'>Trending</h2>
             <Link href={`/movie`}>
               <span className='md:flex md:gap-2'>
-                <p className='hidden md:block text-base font-medium text-white-100/60'>View All</p>
-                <ArrowRight className='text-white-100/60 ' />
+                <p className='hidden text-base font-medium text-white-100/60 md:block'>
+                  View All
+                </p>
+                <ArrowRight className='text-white-100/60' />
               </span>
             </Link>
           </div>
@@ -106,6 +115,25 @@ const TrendingSection = () => {
                   version === item.value
                     ? 'bg-primary text-white'
                     : 'bg-transparent'
+                }`}
+              >
+                {item.name}
+              </p>
+            ))}
+          </div>
+          <div className='relative mx-auto mb-4 flex w-fit gap-1 rounded-full border border-primary bg-black-300 p-1'>
+            <div
+              className='absolute left-0 top-0 h-full w-[50%] rounded-full bg-primary transition-all duration-300 ease-in-out'
+              style={{
+                transform: `translateX(${trendingTime === 'week' ? '100%' : '0'})`,
+              }}
+            ></div>
+            {trendingTimes.map((item, index) => (
+              <p
+                key={index}
+                onClick={() => setTrendingTime(item.value)}
+                className={`relative z-10 cursor-pointer rounded-full px-5 py-1 font-medium ${
+                  trendingTime === item.value ? 'text-white' : 'text-gray-400'
                 }`}
               >
                 {item.name}
@@ -126,7 +154,7 @@ const TrendingSection = () => {
           >
             {isTrendingLoading
               ? Array.from({ length: postersPerPage }).map((_, index) => (
-                  <div key={index} className='w-[220px] mx-auto flex-none px-2'>
+                  <div key={index} className='mx-auto w-[220px] flex-none px-2'>
                     <Skeleton className='h-[320px] w-full rounded-3xl' />
                   </div>
                 ))
