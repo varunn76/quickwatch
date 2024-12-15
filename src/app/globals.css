@@ -146,17 +146,10 @@
   transition: transform 500ms ease-in-out;
 }
 
-@media (max-width: 768px) {
-  .poster-card {
-    width: 180px; /* Smaller width for mobile */
-  }
+.react-multi-carousel-track {
+  transition: transform 0.3s ease-in-out !important;
 }
 
-@media (max-width: 480px) {
-  .poster-card {
-    width: 150px; /* Smaller width for very small screens */
-  }
-}
 @keyframes animate {
   from {
     opacity: 0;

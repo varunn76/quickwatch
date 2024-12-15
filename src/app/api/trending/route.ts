@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const version = searchParams.get('version') || 'all';
-
+  const trendingTime = searchParams.get('trendingTime') || 'day';
   console.log('Requested version: ', version);
 
   try {
@@ -21,12 +21,12 @@ export async function GET(req: Request) {
     // Ensure correct URL formatting
     const endpoint =
       version === 'movie'
-        ? 'trending/movie/day'
+        ? 'trending/movie'
         : version === 'tv'
-          ? 'trending/tv/day'
-          : 'trending/all/day';
+          ? 'trending/tv'
+          : 'trending/all';
 
-    const url = `${baseUrl}/${endpoint}?api_key=${apiKey}`;
+    const url = `${baseUrl}/${endpoint}/${trendingTime}?api_key=${apiKey}`;
     console.log('Fetching URL: ', url);
 
     const res = await fetch(url, {
