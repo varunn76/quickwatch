@@ -37,7 +37,7 @@ export const POSTERDATA = [
   },
   {
     className:
-      'md:top-[450px] hidden 2xl:block lg:right-[100px] xl:top-[350px] xxl:top-[280px] xxl:right-[720px] ',
+      'md:top-[450px] hidden xxl:block lg:right-[100px] xl:top-[350px] xxl:top-[280px] xxl:right-[720px] ',
   },
   {
     className:

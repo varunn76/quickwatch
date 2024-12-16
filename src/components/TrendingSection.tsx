@@ -92,9 +92,9 @@ const TrendingSection = () => {
     </button>
   );
   return (
-    <section className='section_container relative overflow-hidden'>
-      <MaxWidthWrapper>
-        <div className='relative mx-auto flex h-full flex-col'>
+    <section className='section_container relative'>
+      <MaxWidthWrapper className='xl:max-w-screen-xxl'>
+        <div className='relative mx-auto flex h-full w-full flex-col'>
           <div className='flex items-center justify-between'>
             <h2 className='text-3xl font-bold text-white'>Trending</h2>
             <Link href={`/movie`}>
@@ -159,19 +159,32 @@ const TrendingSection = () => {
                   </div>
                 ))
               : // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                trendingData.map((data: any, index: number) => (
-                  <div key={index} className='mx-auto w-[220px] flex-none px-2'>
+                trendingData.slice(0, 10).map((data: any, index: number) => (
+                  <div
+                    key={index}
+                    className='group relative inset-0 z-10 flex w-full flex-col'
+                  >
                     <Card
                       title={data?.title || data?.name || 'Untitled'}
                       src={data?.poster_path || ''}
-                      className='w-full'
-                      imgClassName='h-[320px] w-full'
+                      className='mx-auto w-[180px] xl:ml-20'
+                      imgClassName='h-[270px] w-[180px]'
                       filterType='Movie'
                       bgColor={false}
                       releaseYear={getYearFromDate(
                         data?.release_date || data?.first_air_date
                       )}
                     />
+                    <h2
+                      className={`absolute -bottom-1 -z-10 flex w-fit font-poppins-sans text-9xl font-bold md:bottom-0 ${index === 9 ? 'group-hover:-left-[50px] md:-left-6' : index === 0 ? 'group-hover:left-9 xl:left-12' : '-left-1 group-hover:-left-6 md:-left-1'} text-transparent transition-all duration-500 ease-in-out group-hover:text-secondary`}
+                      style={{
+                        WebkitTextStroke: '2px #9e5ff2',
+                        transition:
+                          'left 0.5s ease-in-out, color 0.5s ease-in-out, -webkit-text-stroke 0.5s ease-in-out',
+                      }}
+                    >
+                      {index + 1}
+                    </h2>
                   </div>
                 ))}
           </Carousel>
