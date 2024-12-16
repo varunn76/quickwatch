@@ -11,7 +11,7 @@ import Carousel from 'react-multi-carousel';
 
 const MovieAndTvSection = () => {
   const [postersPerPage, setPostersPerPage] = useState(5);
-//   const [version, setVersion] = useState('tv');
+  //   const [version, setVersion] = useState('tv');
 
   const { isLoading: isMovieLoading, data } = useQuery({
     queryKey: ['movie Data'],
