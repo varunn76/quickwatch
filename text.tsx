@@ -15,7 +15,6 @@ const TrendingSection = () => {
   const [version, setVersion] = useState('all');
   const [postersPerPage, setPostersPerPage] = useState(5);
   const [trendingTime, setTrendingTime] = useState('day');
-  const [isMobile, setIsMobile] = useState(false); // Add state for mobile check
   const { isLoading: isTrendingLoading, data } = useQuery({
     queryKey: ['trending Data', version, trendingTime],
     queryFn: async () => {
@@ -49,26 +48,19 @@ const TrendingSection = () => {
   };
 
   useEffect(() => {
-    const updateScreenSize = () => {
+    const updatePostersPerPage = () => {
       const width = window.innerWidth;
-
-      if (width > 1439) setPostersPerPage(5);
-      else if (width > 1023) setPostersPerPage(4);
-      else if (width > 767) setPostersPerPage(3);
+      if (width > 1024) setPostersPerPage(5);
+      else if (width > 768) setPostersPerPage(4);
       else if (width > 464) setPostersPerPage(3);
       else setPostersPerPage(1);
-
-      const mobileCheck = width <= 464;
-      setIsMobile(mobileCheck);
-
-      console.log(`Width: ${width}, isMobile: ${mobileCheck}`);
     };
 
-    window.addEventListener('resize', updateScreenSize);
-    updateScreenSize();
+    window.addEventListener('resize', updatePostersPerPage);
+    updatePostersPerPage();
 
     return () => {
-      window.removeEventListener('resize', updateScreenSize);
+      window.removeEventListener('resize', updatePostersPerPage);
     };
   }, []);
 
@@ -84,7 +76,7 @@ const TrendingSection = () => {
   ];
   const CustomLeftArrow = ({ onClick }: { onClick?: () => void }) => (
     <button
-      className='absolute left-2 top-[30%] z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-primary p-2 text-white hover:bg-opacity-80 md:top-1/2 md:flex lg:left-0'
+      className='absolute left-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-primary p-2 text-white hover:bg-opacity-80 lg:left-0'
       onClick={onClick}
     >
       <ArrowLeft size={20} />
@@ -93,16 +85,16 @@ const TrendingSection = () => {
 
   const CustomRightArrow = ({ onClick }: { onClick?: () => void }) => (
     <button
-      className='absolute right-0 top-[30%] z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-primary p-2 text-white hover:bg-opacity-80 md:right-2 md:top-1/2 md:flex lg:right-0'
+      className='absolute right-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-primary p-2 text-white hover:bg-opacity-80 lg:right-0'
       onClick={onClick}
     >
       <ArrowRight size={20} />
     </button>
   );
   return (
-    <section className='section_container relative overflow-hidden'>
-      <MaxWidthWrapper>
-        <div className='relative mx-auto flex h-full flex-col'>
+    <section className='section_container relative'>
+      <MaxWidthWrapper className='xl:max-w-screen-xxl'>
+        <div className='relative mx-auto flex h-full w-full flex-col'>
           <div className='flex items-center justify-between'>
             <h2 className='text-3xl font-bold text-white'>Trending</h2>
             <Link href={`/movie`}>
@@ -153,51 +145,46 @@ const TrendingSection = () => {
             responsive={responsive}
             swipeable={true}
             draggable={true}
-            autoPlay={isMobile}
             autoPlaySpeed={3000}
             keyBoardControl={true}
             customTransition='all .5s'
             customLeftArrow={<CustomLeftArrow />}
             customRightArrow={<CustomRightArrow />}
             transitionDuration={500}
-            infinite={isMobile}
           >
             {isTrendingLoading
               ? Array.from({ length: postersPerPage }).map((_, index) => (
-                  <div key={index} className='mx-auto flex w-[220px] items-end'>
-                    <Skeleton className='h-[250px] w-full rounded-3xl' />
+                  <div key={index} className='mx-auto w-[220px] flex-none px-2'>
+                    <Skeleton className='h-[320px] w-full rounded-3xl' />
                   </div>
                 ))
               : // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 trendingData.slice(0, 10).map((data: any, index: number) => (
                   <div
                     key={index}
-                    className='group relative inset-0 z-10 mx-auto flex h-[250px] w-[220px] flex-none flex-col items-end'
+                    className='group relative inset-0 z-10 flex w-full flex-col'
                   >
                     <Card
                       title={data?.title || data?.name || 'Untitled'}
                       src={data?.poster_path || ''}
-                      className='w-[160px]'
-                      imgClassName='h-[250px] w-[160px]'
+                      className='mx-auto w-[180px] xl:ml-20'
+                      imgClassName='h-[270px] w-[180px]'
                       filterType='Movie'
                       bgColor={false}
                       releaseYear={getYearFromDate(
                         data?.release_date || data?.first_air_date
                       )}
-                      smallScreenBlur={isMobile}
                     />
-                    <h3
-                      className={`absolute bottom-0 -z-10 flex w-fit font-poppins-sans text-9xl font-bold md:bottom-0 ${index === 9 ? '-left-5 group-hover:-left-[50px] md:-left-2' : index === 0 ? 'left-1 group-hover:left-0 xl:left-3' : '-left-4 group-hover:-left-6 md:-left-1'} text-transparent transition-all duration-500 ease-in-out group-hover:text-secondary`}
+                    <h2
+                      className={`absolute -bottom-1 -z-10 flex w-fit font-poppins-sans text-9xl font-bold md:bottom-0 ${index === 9 ? 'group-hover:-left-[50px] md:-left-6' : index === 0 ? 'group-hover:left-9 xl:left-12' : '-left-1 group-hover:-left-6 md:-left-1'} text-transparent transition-all duration-500 ease-in-out group-hover:text-secondary`}
                       style={{
                         WebkitTextStroke: '2px #9e5ff2',
-                        color: '#000',
-                        WebkitTextStrokeWidth: '1px',
                         transition:
                           'left 0.5s ease-in-out, color 0.5s ease-in-out, -webkit-text-stroke 0.5s ease-in-out',
                       }}
                     >
                       {index + 1}
-                    </h3>
+                    </h2>
                   </div>
                 ))}
           </Carousel>

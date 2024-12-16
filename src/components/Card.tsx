@@ -16,6 +16,7 @@ interface CardProps {
   releaseYear?: number | null;
   blur?: boolean;
   filterType?: string;
+  smallScreenBlur?: boolean;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -28,11 +29,12 @@ const Card: React.FC<CardProps> = ({
   releaseYear,
   blur = true,
   bgColor = true,
+  smallScreenBlur = false,
 }) => {
   return (
     <Link
       href={`/movie/${slugify(title, { lower: true, strict: true })}`}
-      className={`group relative flex w-full flex-col items-center overflow-hidden rounded-3xl ${className}`}
+      className={`lg:group relative flex w-full flex-col items-center overflow-hidden rounded-3xl ${className}`}
     >
       <Suspense
         fallback={
@@ -43,17 +45,17 @@ const Card: React.FC<CardProps> = ({
           src={getImageUrl(src, posterWidth)}
           alt={title || 'Poster'}
           placeholderSrc='/poster_skeleton.png'
-          className={`rounded-xl object-cover shadow-2xl transition-transform duration-300 ease-in-out group-hover:scale-105 ${imgClassName}`}
+          className={`rounded-3xl object-cover shadow-2xl transition-transform duration-300 ease-in-out group-hover:scale-105 ${imgClassName}`}
         />
       </Suspense>
 
-      <div className='absolute inset-0 flex flex-col items-center justify-end rounded-xl'>
+      <div className='absolute inset-0 flex flex-col items-center justify-end rounded-3xl'>
         {bgColor && (
           <div className='absolute inset-0 rounded-xl bg-gradient-to-t from-primary via-black/30 opacity-100 transition-opacity duration-300 ease-in-out group-hover:opacity-0'></div>
         )}
         <div
-          className={`absolute bottom-2 flex h-[80px] w-[95%] flex-col items-start justify-between rounded-xl pb-2 transition-all duration-300 ease-in-out ${
-            blur ? 'group-hover:backdrop-blur-md' : ''
+          className={`absolute bottom-2 flex h-[80px] w-[95%] ${smallScreenBlur && 'bg-primary/30 backdrop-blur-md'} flex-col items-start justify-between rounded-3xl pb-2 transition-all duration-300 ease-in-out ${
+            blur ? 'lg:group-hover:backdrop-blur-md' : ''
           }`}
         >
           <div className='flex gap-2 px-1 py-2'>

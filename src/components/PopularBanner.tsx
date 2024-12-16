@@ -88,7 +88,7 @@ function PopularBanner({ currentIndex }: { currentIndex: number }) {
             return (
               <div
                 key={`popular-${index}`}
-                className={`relative h-[200px] w-[130px] cursor-pointer rounded-xl bg-cover bg-center transition-transform md:h-[270px] md:w-[180px] lg:mb-10 lg:h-[320px] lg:w-[190px] xl:h-[250px] xl:w-[170px] 2xl:h-[450px] 2xl:w-[280px] ${
+                className={`relative h-[200px] w-[130px] cursor-pointer rounded-xl bg-cover bg-center transition-transform md:h-[270px] md:w-[180px] lg:mb-10 lg:h-[320px] lg:w-[190px] xl:h-[250px] xxl:h-[330px]  xxl:w-[220px] xl:w-[170px] 2xl:h-[450px] 2xl:w-[280px] ${
                   isCurrent ? 'z-10 scale-125 border' : 'scale-90 opacity-80'
                 }`}
                 style={{
