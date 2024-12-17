@@ -34,7 +34,7 @@ const Card: React.FC<CardProps> = ({
   return (
     <Link
       href={`/movie/${slugify(title, { lower: true, strict: true })}`}
-      className={`lg:group relative flex w-full flex-col items-center overflow-hidden rounded-3xl ${className}`}
+      className={`group relative flex w-full flex-col items-center overflow-hidden rounded-3xl ${className}`}
     >
       <Suspense
         fallback={

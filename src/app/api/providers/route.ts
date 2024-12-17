@@ -11,7 +11,6 @@ export async function GET() {
         { status: 500 }
       );
     }
-    https://api.themoviedb.org/3/watch/providers/movie?
     const res = await fetch(
       `${baseUrl}/watch/providers?api_key=${apiKey}&language=en-US&page=1`,
       {

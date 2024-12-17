@@ -77,7 +77,7 @@ const FilteredContent = ({
               }
             >
               <Card
-                title={ ''}
+                title={''}
                 src={highestRatedMovieOrTvSeries?.poster_path || ''}
                 className='h-[400px] w-[270px] sm:h-[500px] sm:w-[340px] md:h-[600px] md:w-[400px]'
                 imgClassName='h-[400px] w-[270px] sm:h-[500px] sm:w-[340px] md:h-[600px] md:w-[400px]'

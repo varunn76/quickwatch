@@ -15,7 +15,7 @@ const TrendingSection = () => {
   const [version, setVersion] = useState('all');
   const [postersPerPage, setPostersPerPage] = useState(5);
   const [trendingTime, setTrendingTime] = useState('day');
-  const [isMobile, setIsMobile] = useState(false); // Add state for mobile check
+  const [isMobile, setIsMobile] = useState(false); 
   const { isLoading: isTrendingLoading, data } = useQuery({
     queryKey: ['trending Data', version, trendingTime],
     queryFn: async () => {
@@ -101,9 +101,9 @@ const TrendingSection = () => {
   );
   return (
     <section className='section_container relative overflow-hidden'>
-      <MaxWidthWrapper>
+      <MaxWidthWrapper className='xl:max-w-screen-xxl'>
         <div className='relative mx-auto flex h-full flex-col'>
-          <div className='flex items-center justify-between'>
+          <div className='flex items-center justify-between xl:ml-10'>
             <h2 className='text-3xl font-bold text-white'>Trending</h2>
             <Link href={`/movie`}>
               <span className='md:flex md:gap-2'>
@@ -114,7 +114,7 @@ const TrendingSection = () => {
               </span>
             </Link>
           </div>
-          <div className='flex w-full items-center justify-start space-x-2 rounded-xl bg-black-200 py-6 text-white'>
+          <div className='flex w-full items-center justify-start space-x-2 rounded-xl bg-black-200 py-6 text-white xl:ml-10'>
             {versions.map((item, index) => (
               <p
                 key={index}
@@ -153,14 +153,14 @@ const TrendingSection = () => {
             responsive={responsive}
             swipeable={true}
             draggable={true}
-            autoPlay={isMobile}
+            // autoPlay={isMobile}
             autoPlaySpeed={3000}
             keyBoardControl={true}
             customTransition='all .5s'
             customLeftArrow={<CustomLeftArrow />}
             customRightArrow={<CustomRightArrow />}
             transitionDuration={500}
-            infinite={isMobile}
+            // infinite={isMobile}
           >
             {isTrendingLoading
               ? Array.from({ length: postersPerPage }).map((_, index) => (
@@ -172,13 +172,13 @@ const TrendingSection = () => {
                 trendingData.slice(0, 10).map((data: any, index: number) => (
                   <div
                     key={index}
-                    className='group relative inset-0 z-10 mx-auto flex h-[250px] w-[220px] flex-none flex-col items-end'
+                    className='group relative inset-0 z-10 mx-auto flex h-[250px] w-[180px] flex-none flex-col items-end'
                   >
                     <Card
                       title={data?.title || data?.name || 'Untitled'}
                       src={data?.poster_path || ''}
-                      className='w-[160px]'
-                      imgClassName='h-[250px] w-[160px]'
+                      className='w-[180px]'
+                      imgClassName='h-[250px] w-[180px]'
                       filterType='Movie'
                       bgColor={false}
                       releaseYear={getYearFromDate(
@@ -187,11 +187,16 @@ const TrendingSection = () => {
                       smallScreenBlur={isMobile}
                     />
                     <h3
-                      className={`absolute bottom-0 -z-10 flex w-fit font-poppins-sans text-9xl font-bold md:bottom-0 ${index === 9 ? '-left-5 group-hover:-left-[50px] md:-left-2' : index === 0 ? 'left-1 group-hover:left-0 xl:left-3' : '-left-4 group-hover:-left-6 md:-left-1'} text-transparent transition-all duration-500 ease-in-out group-hover:text-secondary`}
+                      className={`absolute bottom-0 -z-10 flex w-fit font-poppins-sans text-9xl font-bold md:bottom-0 ${
+                        index === 9
+                          ? '-left-[90px] md:-left-[70px] lg:group-hover:-left-[80px] xl:-left-[80px] xl:group-hover:-left-[100px]  xxl:-left-[70px] xxl:group-hover:-left-[100px]'
+                          : index === 0
+                            ? '-left-10 md:-left-7 lg:group-hover:-left-9 group-hover:left-0 xl:-left-7 xxl:-left-8  xxl:group-hover:-left-12'
+                            : '-left-16 md:-left-9 lg:group-hover:-left-14  xl:-left-10 xl:group-hover:-left-16  xxl:-left-12 xxl:group-hover:-left-16'
+                      } text-black transition-all duration-500 ease-in-out group-hover:text-secondary`}
                       style={{
                         WebkitTextStroke: '2px #9e5ff2',
-                        color: '#000',
-                        WebkitTextStrokeWidth: '1px',
+                        WebkitTextStrokeWidth: '2px',
                         transition:
                           'left 0.5s ease-in-out, color 0.5s ease-in-out, -webkit-text-stroke 0.5s ease-in-out',
                       }}

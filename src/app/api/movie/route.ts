@@ -30,8 +30,6 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');
 
-    console.log('Extracted ID:', id);
-
     if (!id) {
       return NextResponse.json(
         { error: 'ID is missing in the query parameters' },
@@ -64,7 +62,6 @@ export async function GET(req: Request) {
     }
 
     const data = await res.json();
-    console.log('Fetched data: ', data);
     const genres = findKeysInNestedData(data?.genres, 'name');
 
     return NextResponse.json({
