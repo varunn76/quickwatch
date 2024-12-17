@@ -153,14 +153,14 @@ const TrendingSection = () => {
             responsive={responsive}
             swipeable={true}
             draggable={true}
-            autoPlay={isMobile}
+            // autoPlay={isMobile}
             autoPlaySpeed={3000}
             keyBoardControl={true}
             customTransition='all .5s'
             customLeftArrow={<CustomLeftArrow />}
             customRightArrow={<CustomRightArrow />}
             transitionDuration={500}
-            infinite={isMobile}
+            // infinite={isMobile}
           >
             {isTrendingLoading
               ? Array.from({ length: postersPerPage }).map((_, index) => (
@@ -172,7 +172,7 @@ const TrendingSection = () => {
                 trendingData.slice(0, 10).map((data: any, index: number) => (
                   <div
                     key={index}
-                    className='group relative inset-0 z-10 mx-auto flex h-[250px] w-[220px] flex-none flex-col items-end'
+                    className='group relative inset-0 z-10 mx-auto flex h-[250px] w-[180px] flex-none flex-col items-end'
                   >
                     <Card
                       title={data?.title || data?.name || 'Untitled'}
@@ -189,10 +189,10 @@ const TrendingSection = () => {
                     <h3
                       className={`absolute bottom-0 -z-10 flex w-fit font-poppins-sans text-9xl font-bold md:bottom-0 ${
                         index === 9
-                          ? '-left-6 group-hover:-left-[50px] md:-left-2 xxl:-left-[37px] xxl:group-hover:-left-[60px]'
+                          ? '-left-[90px] md:-left-[70px] lg:group-hover:-left-[80px] xl:-left-[80px] xl:group-hover:-left-[100px]  xxl:-left-[70px] xxl:group-hover:-left-[100px]'
                           : index === 0
-                            ? 'left-0 group-hover:left-0 xl:left-3 xxl:left-0 xxl:group-hover:-left-3'
-                            : '-left-4 group-hover:-left-6 md:-left-1 xxl:-left-4 xxl:group-hover:-left-8'
+                            ? '-left-10 md:-left-7 lg:group-hover:-left-9 group-hover:left-0 xl:-left-7 xxl:-left-8  xxl:group-hover:-left-12'
+                            : '-left-16 md:-left-9 lg:group-hover:-left-14  xl:-left-10 xl:group-hover:-left-16  xxl:-left-12 xxl:group-hover:-left-16'
                       } text-black transition-all duration-500 ease-in-out group-hover:text-secondary`}
                       style={{
                         WebkitTextStroke: '2px #9e5ff2',

@@ -157,7 +157,7 @@ const ProviderSection = () => {
             </div>
           </div>
           <div className='mx-auto flex w-fit items-center justify-end py-4'>
-            <div className='mx-auto flex h-fit w-full cursor-pointer items-center justify-center space-x-2 rounded-xl bg-black-200 py-2 text-white hover:bg-primary lg:px-6'>
+            <div className='mx-auto flex h-fit w-full cursor-pointer  items-center justify-center space-x-2 rounded-xl bg-black-200 py-2 text-white hover:bg-primary lg:px-6'>
               <select
                 id='genre'
                 name='Genres'
