@@ -5,7 +5,6 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const version = searchParams.get('version') || 'all';
   const trendingTime = searchParams.get('trendingTime') || 'day';
-  console.log('Requested version: ', version);
 
   try {
     const apiKey = process.env.TMDB_API_KEY;
@@ -43,7 +42,6 @@ export async function GET(req: Request) {
     }
 
     const data = await res.json();
-    console.log('Fetched data: ', data);
 
     return NextResponse.json({ data });
   } catch (error: any) {
