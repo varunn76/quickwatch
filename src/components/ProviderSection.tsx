@@ -21,6 +21,7 @@ const DEFAULTS = {
   PROVIDER: 8,
   POSTERS_PER_PAGE: 5,
   ADULT: false,
+  WATCH_REGION: 'US',
 };
 
 // const fetchPopularData = async ({
@@ -41,15 +42,16 @@ const DEFAULTS = {
 const ProviderSection = () => {
   const [version, setVersion] = useState(DEFAULTS.VERSION);
   const [provider, setProvider] = useState(DEFAULTS.PROVIDER);
+  const [watchRegion, setWatchRegion] = useState(DEFAULTS.WATCH_REGION);
   const [isMobile, setIsMobile] = useState(false);
   const [adult, setAdult] = useState(DEFAULTS.ADULT);
   const [postersPerPage, setPostersPerPage] = useState(5);
 
   const { isLoading, data } = useQuery({
-    queryKey: ['provider Data', version, provider],
+    queryKey: ['provider Data', version, provider, watchRegion],
     queryFn: async () => {
       const response = await fetch(
-        `/api/discover?version=${version}&provider=${provider}`
+        `/api/discover?version=${version}&provider=${provider}&watchRegion=${watchRegion}`
       );
       const data = await response.json();
       return data;
@@ -60,7 +62,15 @@ const ProviderSection = () => {
   const selectedProvider = PROVIDERS.find(
     (item) => item.provider_id === provider
   );
+  useEffect(() => {
+    if (selectedProvider) {
+      const isAvailableInIN = selectedProvider.countries.some(
+        (country) => country.country === 'IN'
+      );
 
+      setWatchRegion(isAvailableInIN ? 'IN' : 'US');
+    }
+  }, [provider]);
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -157,7 +167,7 @@ const ProviderSection = () => {
             </div>
           </div>
           <div className='mx-auto flex w-fit items-center justify-end py-4'>
-            <div className='mx-auto flex h-fit w-full cursor-pointer  items-center justify-center space-x-2 rounded-xl bg-black-200 py-2 text-white hover:bg-primary lg:px-6'>
+            <div className='mx-auto flex h-fit w-full cursor-pointer items-center justify-center space-x-2 rounded-xl bg-black-200 py-2 text-white hover:bg-primary lg:px-6'>
               <select
                 id='genre'
                 name='Genres'
