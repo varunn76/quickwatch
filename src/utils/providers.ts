@@ -56,6 +56,13 @@ export const PROVIDERS: ProviderType[] = [
     ],
   },
   {
+    display_priority: 47,
+    logo_path: '/oRfWFOG7XbNO1ZSICEnRzmUt7bT.jpg',
+    provider_name: 'Amazon miniTV',
+    provider_id: 1898,
+    countries: [{ country: 'IN', types: ['movie', 'tv'] }],
+  },
+  {
     display_priority: 19,
     logo_path: '/i7knsL0QgDJyuts5FbfjREUqHvu.jpg',
     provider_name: 'Alt Balaji',

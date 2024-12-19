@@ -136,14 +136,14 @@ function PopularBanner({ currentIndex }: { currentIndex: number }) {
         {currentSlide && (
           <div className='absolute top-[8%] flex w-full flex-col justify-center px-6 text-white lg:top-[15%] lg:px-12'>
             <Link
-              className=''
+              className='w-fit'
               href={`/movie/${slugify(`${title}`, { lower: true, strict: true })}`}
             >
               <h1 className='line-clamp-1 text-start text-4xl font-medium hover:text-secondary md:line-clamp-2 lg:text-5xl 2xl:text-6xl'>
                 {title}
               </h1>
             </Link>
-            <div className='mt-2 flex items-center gap-3'>
+            <div className='mt-2 flex items-center gap-3 w-fit'>
               <span className='rounded bg-[#ED8D0B] px-3 py-2 text-sm font-bold leading-3 text-black'>
                 IMDB
               </span>
