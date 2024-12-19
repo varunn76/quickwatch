@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import React, { useEffect, useState } from 'react';
 import MaxWidthWrapper from './MaxWidthWrapper';
@@ -44,7 +45,7 @@ const ProviderSection = () => {
   const [provider, setProvider] = useState(DEFAULTS.PROVIDER);
   const [watchRegion, setWatchRegion] = useState(DEFAULTS.WATCH_REGION);
   const [isMobile, setIsMobile] = useState(false);
-  const [adult, setAdult] = useState(DEFAULTS.ADULT);
+  // const [adult, setAdult] = useState(DEFAULTS.ADULT);
   const [postersPerPage, setPostersPerPage] = useState(5);
 
   const { isLoading, data } = useQuery({
@@ -146,7 +147,7 @@ const ProviderSection = () => {
               Popular
             </h3>
 
-            <div className='flex items-center justify-start gap-5'>
+            <div className='flex flex-col items-center justify-start gap-5 md:flex-row'>
               {!selectedProvider ? (
                 <>
                   <div className='mx-auto flex w-full items-end'>
@@ -161,17 +162,17 @@ const ProviderSection = () => {
                   className='rounded-3xl object-cover shadow-2xl transition-transform duration-300 ease-in-out group-hover:scale-105'
                 />
               )}
-              <h4 className='font-poppins-sans text-5xl font-semibold leading-snug text-white transition-all duration-500 ease-in-out'>
+              <h4 className='font-poppins-sans text-3xl font-semibold leading-snug text-white transition-all duration-500 ease-in-out lg:text-5xl'>
                 {version === 'tv' ? 'Series' : 'Movies'}
               </h4>
             </div>
           </div>
-          <div className='mx-auto flex w-fit items-center justify-end py-4'>
-            <div className='mx-auto flex h-fit w-full cursor-pointer items-center justify-center space-x-2 rounded-xl bg-black-200 py-2 text-white hover:bg-primary lg:px-6'>
+          <div className='mx-auto flex w-full flex-col items-center justify-end gap-4 px-1 py-4 md:w-fit md:flex-row'>
+            <div className='mx-auto flex h-fit w-1/2 cursor-pointer items-center justify-center space-x-2 rounded-xl bg-black-200 py-2 text-white hover:bg-primary lg:px-6'>
               <select
                 id='genre'
                 name='Genres'
-                className='w-full cursor-pointer bg-transparent py-2 text-center text-white xl:px-2'
+                className='mx-2 w-full cursor-pointer bg-transparent py-2 text-center text-white xl:px-2'
                 value={provider}
                 onChange={(e) => setProvider(Number(e.target.value))}
               >
@@ -186,12 +187,12 @@ const ProviderSection = () => {
                 ))}
               </select>
             </div>
-            <div className='flex h-fit w-full items-center justify-start space-x-2 rounded-xl bg-black-200 px-4 py-2 text-white xl:ml-10'>
+            <div className='flex h-fit w-1/2 items-center justify-center space-x-2 rounded-xl bg-black-200 px-4 py-1 text-white xl:ml-10'>
               {versions.map((item, index) => (
                 <p
                   key={index}
                   onClick={() => setVersion(item.value)}
-                  className={`cursor-pointer rounded-md px-3 py-2 font-medium ${
+                  className={`m-1 cursor-pointer rounded-xl px-3 py-2 font-medium ${
                     version === item.value
                       ? 'bg-primary text-white'
                       : 'bg-transparent'
@@ -208,6 +209,8 @@ const ProviderSection = () => {
             responsive={responsive}
             swipeable={true}
             draggable={true}
+            autoPlay={isMobile}
+            infinite={isMobile}
             autoPlaySpeed={3000}
             keyBoardControl={true}
             customTransition='transform 0.3s ease-in-out'
