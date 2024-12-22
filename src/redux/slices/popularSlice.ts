@@ -1,15 +1,16 @@
+import { MovieData } from '@/utils/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface Movie {
-  [x: string]: any;
-  id: number;
-  title: string;
-  poster_path: string;
-  backdrop_path: string;
-}
+// interface Movie {
+//   [x: string]: any;
+//   id: number;
+//   title: string;
+//   poster_path: string;
+//   backdrop_path: string;
+// }
 
 interface PopularState {
-  popularData: Movie[];
+  popularData: MovieData[];
   currentIndex: number;
   loading: boolean;
   error: unknown;
@@ -26,7 +27,7 @@ const popularSlice = createSlice({
   name: 'popular',
   initialState,
   reducers: {
-    setPopularData(state, action: PayloadAction<Movie[]>) {
+    setPopularData(state, action: PayloadAction<MovieData[]>) {
       state.popularData = action.payload;
       state.currentIndex = 0; // Reset index on new data
     },

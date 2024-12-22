@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+// import type { Metadata } from 'next';
 import StoreProvider from '@/app/StoreProvider';
 import localFont from 'next/font/local';
 import './globals.css';

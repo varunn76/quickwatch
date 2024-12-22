@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 // store/slices/filterSlice.ts
+import { MovieData } from '@/utils/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface FilterState {
@@ -7,7 +7,7 @@ interface FilterState {
   selectedGenre: string;
   selectedYear: string;
   searchQuery: string;
-  data: any[];
+  data: MovieData[];
   loading: boolean;
   showModal: boolean;
 }
@@ -38,7 +38,7 @@ const filterSlice = createSlice({
     setSearchQuery(state, action: PayloadAction<string>) {
       state.searchQuery = action.payload;
     },
-    setData(state, action: PayloadAction<any[]>) {
+    setData(state, action: PayloadAction<MovieData[]>) {
       state.data = action.payload;
     },
     setLoading(state, action: PayloadAction<boolean>) {
