@@ -1,11 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import MobleNav from './MobleNav';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Search } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import SearchResult from './SearchResult';
+import { dummyData } from '@/utils';
 
 const NavBar = () => {
   const pathname = usePathname();
@@ -17,17 +20,26 @@ const NavBar = () => {
     { label: 'Tv-Series', href: '/tv-series' },
     { label: 'Most Popular', href: '/popular' },
   ];
+  // const { isLoading: isSearchLoading, data } = useQuery({
+  //   queryKey: ['trending Data', query],
+  //   queryFn: async () => {
+  //     const response = await fetch(`/api/search?query=${query}`);
+  //     const data = await response.json();
+  //     return data;
+  //   },
+  //   staleTime: 5 * 60 * 1000,
+  // });
 
   const SearchBar = ({ isMobile }: { isMobile?: boolean }) => (
     <div
       className={`flex items-center gap-2 ${
-        isMobile ? 'lg:hidden' : 'hidden w-2/5 lg:flex xl:w-4/5'
+        isMobile ? 'lg:hidden' : 'hidden w-2/5 lg:flex xl:w-3/5'
       }`}
     >
       <input
         type='text'
         placeholder='Search for movies or Tv series..'
-        className={`w-full rounded-xl border-0 border-b-2 px-4 py-2 text-sm text-black focus:border-primary focus:outline-none ${isMobile ? '' : 'bg-black-300/20 text-white placeholder:text-white-100 text-lg font-semibold backdrop-blur-md'}`}
+        className={`w-full rounded-3xl border-0 border-b-2 px-4 py-3 text-sm text-black focus:border-primary focus:outline-none ${isMobile ? '' : 'bg-black-300/20 text-lg font-semibold text-white backdrop-blur-md placeholder:text-white-100'}`}
       />
     </div>
   );
@@ -61,14 +73,16 @@ const NavBar = () => {
         <div className='flex w-full items-center justify-around gap-4'>
           {searchBarShow && <SearchBar />}
           <button
-            className='ml-auto flex items-center'
+            className='ml-auto flex items-center rounded-full p-3 text-white hover:bg-primary/50'
             onClick={() => setSearchBarShow((prev) => !prev)}
           >
-            <Search size={24} className='text-white' />
+            <Search className='size-5' />
           </button>
         </div>
       </nav>
       {searchBarShow && <SearchBar isMobile />}
+
+      <SearchResult resultData={dummyData} />
     </header>
   );
 };
